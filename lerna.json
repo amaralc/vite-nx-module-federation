@@ -1,6 +1,13 @@
 {
   "$schema": "node_modules/lerna/schemas/lerna-schema.json",
-  "packages": [".", "apps/service-mfe", "apps/service-consumer", "apps/service-rest-api", "libs/*"],
+  "packages": [
+    ".",
+    "apps/service-mfe",
+    "apps/service-consumer",
+    "apps/service-rest-api",
+    "libs/*",
+    "apps/service-vite-remote"
+  ],
   "version": "independent",
   "command": {
     "version": {

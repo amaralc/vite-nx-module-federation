@@ -1,0 +1,1 @@
+- `yarn add @originjs/vite-plugin-federation -D`
