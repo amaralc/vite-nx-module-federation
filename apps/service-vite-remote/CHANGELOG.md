@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.0](https://github.com/amaralc/vite-nx-module-federation/compare/service-vite-remote@0.2.0...service-vite-remote@0.3.0) (2023-04-06)
+
+### Features
+
+- consume button from remote ([8f976e2](https://github.com/amaralc/vite-nx-module-federation/commit/8f976e2d73b45521a68fac8d3b5be24ea6121df5))
+
 ## [0.2.0](https://github.com/amaralc/vite-nx-module-federation/compare/service-vite-remote@0.1.0...service-vite-remote@0.2.0) (2023-04-06)
 
 ### Features

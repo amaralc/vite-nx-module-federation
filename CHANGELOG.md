@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.0](https://github.com/amaralc/vite-nx-module-federation/compare/micro-applications-template@0.4.0...micro-applications-template@0.5.0) (2023-04-06)
+
+### Features
+
+- add host application ([fb57c8a](https://github.com/amaralc/vite-nx-module-federation/commit/fb57c8a8432d19eb62cf923ad8205b3d3c6020dd))
+- consume button from remote ([8f976e2](https://github.com/amaralc/vite-nx-module-federation/commit/8f976e2d73b45521a68fac8d3b5be24ea6121df5))
+
 ## [0.4.0](https://github.com/amaralc/vite-nx-module-federation/compare/micro-applications-template@0.3.0...micro-applications-template@0.4.0) (2023-04-06)
 
 ### Features
