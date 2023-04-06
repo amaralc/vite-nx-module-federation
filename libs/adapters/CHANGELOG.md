@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.1.2 (2023-04-06)
+
+**Note:** Version bump only for package adapters
+
 ## [0.1.1](https://github.com/amaralc/micro-applications-template/compare/adapters@0.1.0...adapters@0.1.1) (2023-04-03)
 
 ### Bug Fixes

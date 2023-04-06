@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.3.0 (2023-04-06)
+
+### Features
+
+- add remote ([2710591](https://github.com/amaralc/vite-nx-module-federation/commit/27105911629ec2fb8a82fc38df20f9974ef48dff))
+
+### Bug Fixes
+
+- change main branch for trunk branch ([490bb2a](https://github.com/amaralc/vite-nx-module-federation/commit/490bb2a216389b191969fb6b6bbfa03ef012ede1))
+
 ## 0.2.0 (2023-04-03)
 
 ### ⚠ BREAKING CHANGES
