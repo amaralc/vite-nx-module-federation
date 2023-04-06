@@ -1,6 +1,7 @@
 /// <reference types="vitest" />
-import { defineConfig } from 'vite';
+import federation from '@originjs/vite-plugin-federation';
 import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite';
 import viteTsConfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
@@ -21,7 +22,23 @@ export default defineConfig({
     viteTsConfigPaths({
       root: '../../',
     }),
+    federation({
+      name: 'service-vite-remote',
+      filename: 'remoteEntry.js',
+      exposes: {
+        './Button': 'apps/service-vite-remote/src/components/button.jsx',
+      },
+      shared: ['react', 'react-dom'],
+    }),
   ],
+
+  // It's unclear why this is needed, but this is the source: https://youtu.be/t-nchkL9yIg?t=551
+  build: {
+    modulePreload: false,
+    target: 'esnext',
+    minify: false,
+    cssCodeSplit: false,
+  },
 
   // Uncomment this if you are using workers.
   // worker: {
