@@ -1,7 +1,7 @@
 /// <reference types="vitest" />
+import federation from '@originjs/vite-plugin-federation';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
-import viteTsConfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
   cacheDir: '../../node_modules/.vite/service-vite-host',
@@ -18,8 +18,16 @@ export default defineConfig({
 
   plugins: [
     react(),
-    viteTsConfigPaths({
-      root: '../../',
+    // // For some reason (yet unclear), viteTsConfigPaths in host application breaks the federation and needs to be commented out for now
+    // viteTsConfigPaths({
+    //   root: '../../',
+    // }),
+    federation({
+      name: 'service-vite-host',
+      remotes: {
+        'service-vite-remote': 'http://localhost:5001/assets/remoteEntry.js',
+      },
+      shared: ['react', 'react-dom'], // Any libraries we want to share with our remote
     }),
   ],
 
@@ -31,6 +39,14 @@ export default defineConfig({
   //    }),
   //  ],
   // },
+
+  // It's unclear why this is needed, but this is the source: https://youtu.be/t-nchkL9yIg?t=721
+  build: {
+    modulePreload: false,
+    target: 'esnext',
+    minify: false,
+    cssCodeSplit: false,
+  },
 
   test: {
     globals: true,
