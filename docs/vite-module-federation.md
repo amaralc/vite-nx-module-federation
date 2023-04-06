@@ -90,3 +90,9 @@ export { dynamicLoadingCss, get, init };
   - What happens to the sharing between two applications if the application that is sharing the component that I rely on goes down?
 
   "Nothing, because what you should do is you should go and deploy your assets (in this case your css, your js, your images, all of it), they should be deployed to a static assets file store. And that includes all of the federate modules. So yes, your 'application' could go down but that is just the server side of your application. The static assets should never go down because they should be deployed into something like S3, which never (joking) is going to go down."
+
+**Consuming your remote**
+
+- So far I was not able to consume the remote manifest from a host in development mode; I need to build and "preview" in production to see it.
+
+(...continue) https://youtu.be/t-nchkL9yIg?t=816

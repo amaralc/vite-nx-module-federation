@@ -7,7 +7,7 @@ export const Button = () => {
   return (
     <div>
       <button className="shared-btn" onClick={() => setState((s) => s + 1)}>
-        (remote) Counter: {state}
+        (host) Counter: {state}
       </button>
     </div>
   );
