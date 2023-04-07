@@ -2,7 +2,7 @@
 
 - `yarn add @originjs/vite-plugin-federation -D`
 
-**Usage with Nx**
+## Usage with Nx
 
 - While exposing a component using a monorepo structure (with Nx) it is necessary to reference the full path and file extension of the component:
 
@@ -18,7 +18,7 @@ federation({
 }),
 ```
 
-**Differences from module federation**
+## Differences from module federation
 
 - Differently than module federation, with vite-plugin-federation you need to build the remote application in order to generate the manifest file;
 - Also, it is necessary to serve the build using "preview"; In nx case:
@@ -91,8 +91,13 @@ export { dynamicLoadingCss, get, init };
 
   "Nothing, because what you should do is you should go and deploy your assets (in this case your css, your js, your images, all of it), they should be deployed to a static assets file store. And that includes all of the federate modules. So yes, your 'application' could go down but that is just the server side of your application. The static assets should never go down because they should be deployed into something like S3, which never (joking) is going to go down."
 
-**Consuming your remote**
+## Consuming your remote
 
 - So far I was not able to consume the remote manifest from a host in development mode; I need to build and "preview" in production to see it.
 
 (...continue) https://youtu.be/t-nchkL9yIg?t=816
+
+## Share store code
+
+- Why to use something like "jotai" instead of "redux"?
+- Jotai lets you deal with your state in a way that reduces coupling, as compared to jotai.

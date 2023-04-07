@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import Button from '../components/button';
-import useCount from '../store';
+import { useCount } from '../store';
 
 export function App() {
   const [count, setCount] = useCount();
