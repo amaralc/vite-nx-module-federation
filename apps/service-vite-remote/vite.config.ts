@@ -27,8 +27,9 @@ export default defineConfig({
       filename: 'remoteEntry.js',
       exposes: {
         './Button': 'apps/service-vite-remote/src/components/button.jsx',
+        './store': 'apps/service-vite-remote/src/store.js',
       },
-      shared: ['react', 'react-dom'],
+      shared: ['react', 'react-dom', 'jotai'],
     }),
   ],
 
