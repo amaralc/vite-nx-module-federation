@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.1](https://github.com/amaralc/vite-nx-module-federation/compare/micro-applications-template@0.7.0...micro-applications-template@0.7.1) (2023-04-07)
+
+### Bug Fixes
+
+- cleanup ([a02bd7a](https://github.com/amaralc/vite-nx-module-federation/commit/a02bd7a6a708c9ad1fb7330cdb79b9f3fc1304e0))
+
 ## [0.7.0](https://github.com/amaralc/vite-nx-module-federation/compare/micro-applications-template@0.6.0...micro-applications-template@0.7.0) (2023-04-07)
 
 ### Features
