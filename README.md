@@ -1,99 +1,111 @@
-# Knowledge Network
+# Vite and Module Federation - Notes
 
-This is a side project meant to practice software development skills with TypeScript, Node.js and React, while delivering a real product that could help people to manage their own stuff.
+- Video: https://www.youtube.com/watch?v=t-nchkL9yIg
 
-The primary use case I had in mind, was manage my books. I often lend books to friends and colleagues and later find myself asking the same question: "Where is that book again?". If WhereIsMyStuff could help me to find answers for that sort of question, than the mission was accomplished.
+## Adding vite plugin federation
 
-# Setup
+- `yarn add @originjs/vite-plugin-federation -D`
 
-## Prerequisites
+## Usage with Nx
 
-- [Install NVM]()
-- [Install NodeJS]()
-- [Install Yarn]()
-- [Install Docker Engine]()
-- [Install Docker Compose]()
-- [Mongo Database Tools](https://www.mongodb.com/docs/database-tools/installation/installation-linux/#installation)
-- [Install Studio3T](https://github.com/Studio3T/robomongo)
-- [Install Hasura CLI]()
-- [Install Make]()
-- [Install VSCode Rest Client Extension]()
-- [Install NX Console Extension]()
+- While exposing a component using a monorepo structure (with Nx) it is necessary to reference the full path and file extension of the component:
 
-## Infrastructure Setup
+```js
+...
+federation({
+  name: 'service-vite-remote',
+  filename: 'remoteEntry.js',
+  exposes: {
+    './Button': 'apps/service-vite-remote/src/components/button.jsx',  // <--- Here, using "./src/components/button" is not enough
+  },
+  shared: ['react', 'react-dom'],
+}),
+```
 
-- (github) Fork this repository;
-- (terminal) Clone repository: `git clone git@github.com:<your-username>/where-is-my-stuff.git`;
-- (terminal) Set up persistence layer: `make infra-setup`;
-- (terminal) Verify that all containers are running: `docker ps`;
-- (terminal) You should see 5 containers up and running:
+## Differences from module federation
 
-  ```
-    - confluent-control-center
-    - kafka
-    - hasura
-    - postgres
-    - zookeeper
-  ```
+- Differently than module federation, with vite-plugin-federation you need to build the remote application in order to generate the manifest file;
+- Also, it is necessary to serve the build using "preview"; In nx case:
 
-## Run service-rest-api service
+```bash
+yarn nx run service-vite-remote:build && yarn nx run service-vite-remote:preview:production
+```
 
-- (terminal) Install dependencies: `yarn install`;
-- (terminal) Run project: `yarn service-rest-api:serve`;
+- (browser) Visit `http://localhost:5001` and verify that you see a manifest file such as:
 
-# TODO
+```js
+const exportSet = new Set(['Module', '__esModule', 'default', '_export_sfc']);
+let moduleMap = {
+  './Button': () => {
+    dynamicLoadingCss(['button-e9e5ede8.css']);
+    return __federation_import('./__federation_expose_Button-ad9f608a.js').then((module) =>
+      Object.keys(module).every((item) => exportSet.has(item)) ? () => module.default : () => module
+    );
+  },
+};
+const seen = {};
+const dynamicLoadingCss = (cssFilePaths) => {
+  const metaUrl = import.meta.url;
+  if (typeof metaUrl == 'undefined') {
+    console.warn(
+      'The remote style takes effect only when the build.target option in the vite.config.ts file is higher than that of "es2020".'
+    );
+    return;
+  }
+  const curUrl = metaUrl.substring(0, metaUrl.lastIndexOf('remoteEntry.js'));
 
-In order to keep track of what should be done, the project will be managed using github projects, although for faster development, I might take notes in the [todo.md file](./docs/todo.md), in this repository.
+  cssFilePaths.forEach((cssFilePath) => {
+    const href = curUrl + cssFilePath;
+    if (href in seen) return;
+    seen[href] = true;
+    const element = document.head.appendChild(document.createElement('link'));
+    element.href = href;
+    element.rel = 'stylesheet';
+  });
+};
+async function __federation_import(name) {
+  return import(name);
+}
+const get = (module) => {
+  return moduleMap[module]();
+};
+const init = (shareScope) => {
+  globalThis.__federation_shared__ = globalThis.__federation_shared__ || {};
+  Object.entries(shareScope).forEach(([key, value]) => {
+    const versionKey = Object.keys(value)[0];
+    const versionValue = Object.values(value)[0];
+    const scope = versionValue.scope || 'default';
+    globalThis.__federation_shared__[scope] = globalThis.__federation_shared__[scope] || {};
+    const shared = globalThis.__federation_shared__[scope];
+    (shared[key] = shared[key] || {})[versionKey] = versionValue;
+  });
+};
 
-# Commits
+export { dynamicLoadingCss, get, init };
+```
 
-This repository is using husky and commitlint to organize commit messages a little bit. Configuration references came from the following references:
+- The manifest tells the consuming application: "Here is what I've got";
+- In our case, it has got the shared libraries (react, react-dom), and our "Button", that has our button implementation in it;
+- If you don't see this file, than nothing is going to work at this point.
+- If you just run the "yarn nx run service-vite-remote:serve", it won't generate the manifest, so that's why it's important to build the application and serve the files generated by the production build.
+- It's also important to emphasize the location of this file. It is in the "assets" directory, and that's because this remoteEntry file and all of the bundles and references are just JavaScript files and should be treated and deployed like assets.
+- One common question about module federation:
 
-- https://github.com/jdiponziano/next-nx-mfe/blob/stripped-code/.commitlintrc.json
-- https://github.com/typicode/husky
-- https://github.com/conventional-changelog/commitlint
-- https://github.com/conventional-changelog/conventional-changelog
+  - What happens to the sharing between two applications if the application that is sharing the component that I rely on goes down?
 
-## Hooks
+  "Nothing, because what you should do is you should go and deploy your assets (in this case your css, your js, your images, all of it), they should be deployed to a static assets file store. And that includes all of the federate modules. So yes, your 'application' could go down but that is just the server side of your application. The static assets should never go down because they should be deployed into something like S3, which never (joking) is going to go down."
 
-This repository include pre-commit hooks with Husky. There is a hook for checking if the commit message complies with the message formats and also a hook that runs all unit tests before the commit.
+## Consuming your remote
 
-# Releases
+- So far I was not able to consume the remote manifest from a host in development mode; I need to build and "preview" in production to see it.
 
-We will start using conventional commits in order to experiment on the automation of changelog generation.
+(...continue) https://youtu.be/t-nchkL9yIg?t=816
 
-[Here](https://github.com/conventional-changelog/conventional-changelog) there are recommendations on how to handle that operation, and although [this](https://github.com/conventional-changelog/standard-version) link points out that the [standard-version](https://github.com/conventional-changelog/standard-version) library is deprecated, it was the simpler to configure. Other great alternative was the [semantic-release](https://github.com/semantic-release/semantic-release) library, but apparently it only works when using Node 18.
+## Share store code
 
-For now, for experimentation purposes, we will go with `standard-version`. Later on, I hope to be more familiar so that I can put an effort to switch to whatever other better option.
+- Why to use something like "jotai" instead of "redux"?
+- Jotai lets you deal with your state in a way that reduces coupling, as compared to jotai.
 
-# Deployment
+## Webpack Compatibility
 
-TODO
-
-References:
-
-- https://upstash.com/
-- https://registry.terraform.io/providers/upstash/upstash/latest/docs
-- https://payloadcms.com/
-
-# Use cases
-
-## API
-
-- (POST /users) Create new user
-- (GET /plan-subscriptions) List all plan subscriptions
-
-# Consumer
-
-- Consume 'plan-subscription-created' topic and add a new user to the database;
-
-# Lessons Learned
-
-- Use nx migrate; Use commit prefix option; It is worth it.
-
-# References
-
-- https://github.com/devfullcycle/imersao-12-esquenta-kafka
-- https://github.com/amaralc/nestjs-fundamentals
-- https://github.com/amaralc/2022-course-rocketseat-ignite-lab-nodejs
-- chat.openai.com
+- Vite with rollup is compatible with webpack 5;
