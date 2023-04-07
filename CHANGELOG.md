@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.0](https://github.com/amaralc/vite-nx-module-federation/compare/micro-applications-template@0.5.0...micro-applications-template@0.6.0) (2023-04-07)
+
+### Features
+
+- differentiate buttons styles ([63e0ca0](https://github.com/amaralc/vite-nx-module-federation/commit/63e0ca03eb4dc026aba13efddbea24148a3b2f6b))
+
 ## [0.5.0](https://github.com/amaralc/vite-nx-module-federation/compare/micro-applications-template@0.4.0...micro-applications-template@0.5.0) (2023-04-06)
 
 ### Features
