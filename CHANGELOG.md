@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.0](https://github.com/amaralc/vite-nx-module-federation/compare/micro-applications-template@0.6.0...micro-applications-template@0.7.0) (2023-04-07)
+
+### Features
+
+- **remote:** add remote shared state with jotai ([da33eb1](https://github.com/amaralc/vite-nx-module-federation/commit/da33eb18c59fdf32741b18e2768a3280e1190b2c))
+- share store code with host ([4ad2aa5](https://github.com/amaralc/vite-nx-module-federation/commit/4ad2aa5f16f0a75fbd7892ae8a91e8a1dfeaffc4))
+
 ## [0.6.0](https://github.com/amaralc/vite-nx-module-federation/compare/micro-applications-template@0.5.0...micro-applications-template@0.6.0) (2023-04-07)
 
 ### Features
