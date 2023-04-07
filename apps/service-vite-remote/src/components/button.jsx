@@ -1,9 +1,9 @@
-import { useState } from "react";
+import useCount from "../store";
 
 import "./button.css";
 
 export const Button = () => {
-  const [state, setState] = useState(0);
+  const [state, setState] = useCount();
   return (
     <div>
       <button className="shared-btn" onClick={() => setState((s) => s + 1)}>
